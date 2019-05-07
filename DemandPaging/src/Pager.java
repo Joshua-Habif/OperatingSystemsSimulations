@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays; only used for debugging
 import java.util.Collections;
 
 /**
