@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-//import java.util.Arrays; only used for debugging
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -16,6 +16,7 @@ import java.util.Collections;
  * Please refer any bugs or questions to jh5653@nyu.edu
  * 
  * Last modified on May 07, 2019.
+ * 
  * This program simulates a demand paging handler in an operating system. 
  * The input is given as command line arguments: in the following order:
  * the machine size in words; the page size in words; the size of each process, i.e., the references are to virtual addresses;
@@ -100,11 +101,9 @@ public class Pager {
 				if(!touched[curProcess]) {
 					touched[curProcess] = true;
 					curWord = ((FIRSTWORD*(curProcess+1)) % processSize);
-					nextWords[curProcess] = fetchWord(curWord, curProcess);
 				}
 				else {
 					curWord = nextWords[curProcess];
-					nextWords[curProcess] = fetchWord(curWord, curProcess);
 				}
 				
 				//uncomment for debugging
@@ -168,6 +167,7 @@ public class Pager {
 				runningTime[curProcess]++;
 				clock++;
 				add++;
+				nextWords[curProcess] = fetchWord(curWord, curProcess);
 			}
 
 			if(numberOfProc != 1)
@@ -218,7 +218,12 @@ public class Pager {
 	
 	
 	public static Pair random() throws IOException {
-		return frameTable.get((randomOS() % (machineSize/pageSize)));
+		//uncomment to debug
+		int randomEviction = randomOS();
+		//output.write(randomEviction+"\n");
+		//System.out.println((randomEviction % (machineSize/pageSize)));
+		return frameTable.get((randomEviction % (machineSize/pageSize)));
+		//return frameTable.get((randomOS() % (machineSize/pageSize)));
 	}
 	
 	public static Pair getFreeFrame() {
